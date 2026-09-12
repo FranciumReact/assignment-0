@@ -2,6 +2,8 @@
 Sources:
     https://developer.android.com/develop/ui/compose/layouts/basics
     https://www.geeksforgeeks.org/kotlin/spacer-in-android-jetpack-compose/
+    https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.random/-random/
+    Claude assisted with importing everything
  */
 
 
@@ -31,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.random.Random
+import androidx.activity.enableEdgeToEdge
+import com.example.assignment_0.ui.theme.Assignment0Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Assignment0Theme {
+                MakeDecision()
 
             }
         }
@@ -45,13 +50,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MakeDecision(){
-    var numClicks by remember { mutableIntStateOf(0) }
-    var decision by remember { mutableStateOf("") }
+fun MakeDecision() {
+    // Remembers number of clicks
+    var numClicks by remember { mutableStateOf(0) }
+    var decision by remember { mutableStateOf("Press a button") }
 
-    // Column stacks horizontally
+    // Column stacks vertically
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
+        // Vertically and horizontally aligns
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -69,7 +76,69 @@ fun MakeDecision(){
 
         Spacer(Modifier.height(24.dp))
 
-    }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            // Evenly spaces out the buttons
+            horizontalArrangement = Arrangement.SpaceEvenly
 
+        ) {
+            Button(
+                onClick = {
+                    numClicks += 1
+
+                    if (Random.nextDouble() < 0.5) {
+                        decision = "Yes"
+                    } else {
+                        decision = "No"
+                    }
+                }
+            ) {
+                Text("50%")
+            }
+
+            Button(
+                onClick = {
+                    numClicks += 1
+
+                    if (Random.nextDouble() < 0.25) {
+                        decision = "Yes"
+                    } else {
+                        decision = "No"
+                    }
+                }
+            ) {
+                Text("25%")
+            }
+            Button(
+                onClick = {
+                    numClicks += 1
+
+                    if (Random.nextDouble() < 0.1) {
+                        decision = "Yes"
+                    } else {
+                        decision = "No"
+                    }
+                }
+            ) {
+                Text("10%")
+            }
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Clicks: $numClicks",
+            fontSize = 20.sp
+        )
+
+        Text(
+            text = "Student ID: 1871467",
+            fontSize = 20.sp
+        )
+
+        Text(
+            text = "CCID: hsb2",
+            fontSize = 20.sp
+        )
+    }
 }
 
